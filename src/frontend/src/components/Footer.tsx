@@ -17,7 +17,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-gray-950 text-gray-300">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
@@ -55,7 +55,7 @@ export default function Footer() {
                   <button
                     type="button"
                     onClick={goHome}
-                    className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+                    className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2 min-h-[44px] sm:min-h-0"
                   >
                     <span>{s.emoji}</span>
                     <span>{s.name}</span>

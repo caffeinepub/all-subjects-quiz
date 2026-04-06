@@ -154,7 +154,7 @@ export default function HomePage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="hero-gradient py-16 md:py-20 relative overflow-hidden">
+      <section className="hero-gradient py-10 sm:py-16 md:py-20 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -190,7 +190,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button
-                  className="cta-gradient text-gray-900 rounded-pill px-6 py-3 text-sm font-bold border-0 hover:opacity-90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform duration-200"
+                  className="cta-gradient text-gray-900 rounded-pill px-6 py-3 text-sm font-bold border-0 hover:opacity-90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform duration-200 min-h-[44px]"
                   onClick={scrollToSubjects}
                   data-ocid="hero.primary_button"
                 >
@@ -199,45 +199,46 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Right: Decorative */}
-            <motion.div
-              initial={{ opacity: 0, x: 32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="flex justify-center md:justify-end"
-            >
-              <div className="relative w-72 h-64 sm:w-80 sm:h-72">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-40 h-40 bg-white/15 backdrop-blur-sm rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
-                    <GraduationCapIcon />
+            {/* Right: Decorative — hidden on mobile */}
+            <div className="hidden sm:flex justify-center md:justify-end">
+              <motion.div
+                initial={{ opacity: 0, x: 32 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <div className="relative w-72 h-64 sm:w-80 sm:h-72">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-40 h-40 bg-white/15 backdrop-blur-sm rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
+                      <GraduationCapIcon />
+                    </div>
                   </div>
+                  {HERO_ICONS.map((icon, i) => {
+                    const angle = (i / HERO_ICONS.length) * 360;
+                    const r = 110;
+                    const x = Math.cos((angle * Math.PI) / 180) * r;
+                    const y = Math.sin((angle * Math.PI) / 180) * r;
+                    return (
+                      <motion.div
+                        key={icon}
+                        className="absolute w-11 h-11 bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 text-xl"
+                        style={{
+                          left: `calc(50% + ${x}px - 22px)`,
+                          top: `calc(50% + ${y}px - 22px)`,
+                        }}
+                        animate={{ y: [0, -6, 0] }}
+                        transition={{
+                          duration: 2.5 + i * 0.3,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        {icon}
+                      </motion.div>
+                    );
+                  })}
                 </div>
-                {HERO_ICONS.map((icon, i) => {
-                  const angle = (i / HERO_ICONS.length) * 360;
-                  const r = 110;
-                  const x = Math.cos((angle * Math.PI) / 180) * r;
-                  const y = Math.sin((angle * Math.PI) / 180) * r;
-                  return (
-                    <motion.div
-                      key={icon}
-                      className="absolute w-11 h-11 bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 text-xl"
-                      style={{
-                        left: `calc(50% + ${x}px - 22px)`,
-                        top: `calc(50% + ${y}px - 22px)`,
-                      }}
-                      animate={{ y: [0, -6, 0] }}
-                      transition={{
-                        duration: 2.5 + i * 0.3,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      {icon}
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -385,7 +386,7 @@ export default function HomePage() {
               Join thousands of students already using All Subjects Quiz
             </p>
             <Button
-              className="cta-gradient text-gray-900 rounded-pill px-8 py-3 text-sm font-bold border-0 hover:opacity-90 transition-all shadow-lg"
+              className="cta-gradient text-gray-900 rounded-pill px-8 py-3 text-sm font-bold border-0 hover:opacity-90 transition-all shadow-lg min-h-[44px]"
               onClick={scrollToSubjects}
               data-ocid="cta.primary_button"
             >

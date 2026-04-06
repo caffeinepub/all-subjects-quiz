@@ -126,7 +126,7 @@ export default function QuizPage() {
     <main className="min-h-screen bg-gray-50">
       {/* Quiz Header */}
       <div className="bg-white border-b border-border sticky top-16 z-30">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
@@ -144,7 +144,7 @@ export default function QuizPage() {
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowConfirmExit(true)}
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-pill text-xs"
+                className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-pill text-xs min-h-[44px]"
                 data-ocid="quiz.secondary_button"
               >
                 <X className="w-3.5 h-3.5 mr-1" /> Exit
@@ -235,7 +235,7 @@ export default function QuizPage() {
                     onClick={() =>
                       !isAnswered && handleSelectOption(currentQuestion, idx)
                     }
-                    className={`w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-3 group ${optionClass}`}
+                    className={`w-full text-left p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-3 group min-h-[52px] ${optionClass}`}
                     data-ocid={`quiz.toggle.${idx + 1}`}
                   >
                     <span
@@ -292,7 +292,7 @@ export default function QuizPage() {
             variant="outline"
             onClick={handlePrev}
             disabled={currentIndex === 0}
-            className="rounded-pill text-sm"
+            className="rounded-pill text-sm min-h-[44px]"
             data-ocid="quiz.secondary_button"
           >
             <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Previous
@@ -303,7 +303,7 @@ export default function QuizPage() {
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="purple-gradient text-white rounded-pill text-sm border-0 hover:opacity-90 px-5"
+                className="purple-gradient text-white rounded-pill text-sm border-0 hover:opacity-90 px-5 min-h-[44px]"
                 data-ocid="quiz.submit_button"
               >
                 {isSubmitting ? (
@@ -321,7 +321,7 @@ export default function QuizPage() {
             ) : (
               <Button
                 onClick={handleNext}
-                className="purple-gradient text-white rounded-pill text-sm border-0 hover:opacity-90 px-5"
+                className="purple-gradient text-white rounded-pill text-sm border-0 hover:opacity-90 px-5 min-h-[44px]"
                 data-ocid="quiz.primary_button"
               >
                 Next <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
@@ -347,7 +347,7 @@ export default function QuizPage() {
                   key={q.id.toString()}
                   type="button"
                   onClick={() => setCurrentIndex(idx)}
-                  className={`w-7 h-7 rounded text-xs font-medium transition-all ${
+                  className={`w-8 h-8 rounded text-xs font-medium transition-all ${
                     isCurrent
                       ? "purple-gradient text-white"
                       : isAnsweredQ
@@ -371,7 +371,7 @@ export default function QuizPage() {
             onClick={handleSubmit}
             disabled={isSubmitting || answeredCount === 0}
             variant="outline"
-            className="rounded-pill text-sm border-primary/40 text-primary hover:bg-accent"
+            className="rounded-pill text-sm border-primary/40 text-primary hover:bg-accent min-h-[44px]"
             data-ocid="quiz.submit_button"
           >
             {isSubmitting
@@ -407,14 +407,14 @@ export default function QuizPage() {
                 <Button
                   variant="outline"
                   onClick={() => setShowConfirmExit(false)}
-                  className="flex-1 rounded-pill"
+                  className="flex-1 rounded-pill min-h-[44px]"
                   data-ocid="quiz.cancel_button"
                 >
                   Continue Quiz
                 </Button>
                 <Button
                   onClick={goHome}
-                  className="flex-1 rounded-pill bg-destructive text-white border-0 hover:opacity-90"
+                  className="flex-1 rounded-pill bg-destructive text-white border-0 hover:opacity-90 min-h-[44px]"
                   data-ocid="quiz.confirm_button"
                 >
                   Exit Quiz

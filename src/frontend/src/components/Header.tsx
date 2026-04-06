@@ -90,7 +90,7 @@ export default function Header() {
           {/* Mobile Hamburger */}
           <button
             type="button"
-            className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            className="md:hidden p-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
             data-ocid="nav.toggle"
@@ -121,7 +121,7 @@ export default function Header() {
                   goHome();
                   setMobileOpen(false);
                 }}
-                className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-secondary transition-colors"
+                className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-foreground hover:bg-secondary transition-colors min-h-[44px] flex items-center"
                 data-ocid="nav.link"
               >
                 Home
@@ -129,14 +129,14 @@ export default function Header() {
               <button
                 type="button"
                 onClick={scrollToSubjects}
-                className="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors min-h-[44px] flex items-center"
                 data-ocid="nav.link"
               >
                 Subjects
               </button>
               <div className="pt-2">
                 <Button
-                  className="w-full purple-gradient text-white rounded-pill text-sm font-semibold border-0 hover:opacity-90 transition-opacity"
+                  className="w-full purple-gradient text-white rounded-pill text-sm font-semibold border-0 hover:opacity-90 transition-opacity min-h-[44px]"
                   onClick={() => {
                     scrollToSubjects();
                     setMobileOpen(false);

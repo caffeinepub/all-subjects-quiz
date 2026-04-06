@@ -67,7 +67,7 @@ export default function ResultPage() {
   const dashOffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10">
+    <main className="min-h-screen bg-gray-50 py-6 sm:py-10">
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <motion.div
@@ -250,7 +250,7 @@ export default function ResultPage() {
         >
           <Button
             onClick={() => goToQuiz(selectedQuiz)}
-            className="flex-1 purple-gradient text-white rounded-pill border-0 hover:opacity-90 text-sm font-semibold"
+            className="flex-1 purple-gradient text-white rounded-pill border-0 hover:opacity-90 text-sm font-semibold min-h-[44px]"
             data-ocid="result.primary_button"
           >
             <RefreshCw className="w-4 h-4 mr-1.5" /> Try Again
@@ -258,7 +258,7 @@ export default function ResultPage() {
           <Button
             variant="outline"
             onClick={goHome}
-            className="flex-1 rounded-pill text-sm font-semibold"
+            className="flex-1 rounded-pill text-sm font-semibold min-h-[44px]"
             data-ocid="result.secondary_button"
           >
             <Home className="w-4 h-4 mr-1.5" /> Back to Home

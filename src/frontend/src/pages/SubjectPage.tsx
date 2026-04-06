@@ -70,7 +70,7 @@ function QuizCard({
           </Badge>
           <Button
             size="sm"
-            className="purple-gradient text-white rounded-pill text-xs border-0 hover:opacity-90 transition-opacity px-4"
+            className="purple-gradient text-white rounded-pill text-xs border-0 hover:opacity-90 transition-opacity px-4 min-h-[44px]"
             onClick={() => goToQuiz(quiz)}
             data-ocid={`quizzes.primary_button.${index + 1}`}
           >
@@ -96,7 +96,7 @@ export default function SubjectPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Header */}
-      <div className={`${meta.gradient} py-12`}>
+      <div className={`${meta.gradient} py-8 sm:py-12`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <nav
             className="flex items-center gap-1.5 text-white/70 text-sm mb-6"
@@ -105,7 +105,7 @@ export default function SubjectPage() {
             <button
               type="button"
               onClick={goHome}
-              className="hover:text-white transition-colors"
+              className="hover:text-white transition-colors min-h-[44px] flex items-center"
               data-ocid="breadcrumb.link"
             >
               Home
@@ -132,13 +132,13 @@ export default function SubjectPage() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         <div className="flex items-center justify-between mb-6">
           <Button
             variant="outline"
             size="sm"
             onClick={goHome}
-            className="rounded-pill text-sm"
+            className="rounded-pill text-sm min-h-[44px]"
             data-ocid="subject.secondary_button"
           >
             <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Back to Home
