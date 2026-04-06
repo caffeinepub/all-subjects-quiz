@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import type { Answer } from "../backend.d.ts";
 import { useActor } from "./useActor";
 
-// Auto-initialize once actor is available
+// Auto-initialize: runs initialize() once actor is ready, then invalidates subjects
 export function useAutoInitialize() {
   const { actor, isFetching } = useActor();
   const initialized = useRef(false);
@@ -12,15 +12,9 @@ export function useAutoInitialize() {
   useEffect(() => {
     if (!actor || isFetching || initialized.current) return;
     initialized.current = true;
-    actor
-      .initialize()
-      .then(() => {
-        // After init, invalidate subjects so they reload fresh
-        queryClient.invalidateQueries({ queryKey: ["subjects"] });
-      })
-      .catch(() => {
-        // Already initialized — safe to ignore
-      });
+    actor.initialize().finally(() => {
+      queryClient.invalidateQueries({ queryKey: ["subjects"] });
+    });
   }, [actor, isFetching, queryClient]);
 }
 
@@ -29,14 +23,14 @@ export function useSubjects() {
   return useQuery({
     queryKey: ["subjects"],
     queryFn: async () => {
-      if (!actor) return [];
+      if (!actor) throw new Error("Actor not ready");
       const result = await actor.getSubjects();
-      return result;
+      return result ?? [];
     },
     enabled: !!actor && !isFetching,
-    staleTime: 10 * 60 * 1000,
-    retry: 3,
-    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
+    staleTime: 5 * 60 * 1000,
+    retry: 5,
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 8000),
   });
 }
 
