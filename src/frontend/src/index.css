@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Plus Jakarta Sans font */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@layer base {
+  :root {
+    --radius: 0.625rem;
+
+    /* Core palette - white background, near-black text */
+    --background: 1 0 0;
+    --foreground: 0.131 0.02 264;
+
+    --card: 1 0 0;
+    --card-foreground: 0.131 0.02 264;
+
+    --popover: 1 0 0;
+    --popover-foreground: 0.131 0.02 264;
+
+    /* Primary: purple #7C3AED => oklch(0.509 0.255 296.2) */
+    --primary: 0.509 0.255 296.2;
+    --primary-foreground: 1 0 0;
+
+    /* Secondary: light gray */
+    --secondary: 0.96 0.005 264;
+    --secondary-foreground: 0.3 0.02 264;
+
+    --muted: 0.96 0.005 264;
+    --muted-foreground: 0.5 0.02 264;
+
+    /* Accent: light purple tint */
+    --accent: 0.94 0.03 296;
+    --accent-foreground: 0.509 0.255 296.2;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 1 0 0;
+
+    --border: 0.91 0.008 264;
+    --input: 0.91 0.008 264;
+    --ring: 0.509 0.255 296.2;
+
+    /* Quiz brand tokens */
+    /* Purple #7C3AED => oklch(0.509 0.255 296.2) */
+    --quiz-purple: 0.509 0.255 296.2;
+    /* Lighter purple #A855F7 => oklch(0.627 0.265 303.9) */
+    --quiz-purple-light: 0.627 0.265 303.9;
+    /* Cyan #00C8FF => oklch(0.779 0.148 218.5) */
+    --quiz-cyan: 0.779 0.148 218.5;
+    /* Green #34E3A1 => oklch(0.827 0.165 163.7) */
+    --quiz-green: 0.827 0.165 163.7;
+    /* Blue #2F6BFF => oklch(0.554 0.218 264.1) */
+    --quiz-blue: 0.554 0.218 264.1;
+
+    --chart-1: 0.646 0.222 41.116;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+
+    --sidebar: 0.985 0 0;
+    --sidebar-foreground: 0.145 0 0;
+    --sidebar-primary: 0.509 0.255 296.2;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.94 0.03 296;
+    --sidebar-accent-foreground: 0.509 0.255 296.2;
+    --sidebar-border: 0.91 0.008 264;
+    --sidebar-ring: 0.509 0.255 296.2;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Hero gradient: cyan→blue→purple→green */
+  .hero-gradient {
+    background: linear-gradient(
+      135deg,
+      #00c8ff 0%,
+      #2f6bff 30%,
+      #7c3aed 65%,
+      #18d67b 100%
+    );
+  }
+
+  /* CTA green gradient */
+  .cta-gradient {
+    background: linear-gradient(135deg, #34e3a1 0%, #2dd4bf 100%);
+  }
+
+  /* Purple gradient button */
+  .purple-gradient {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  }
+
+  /* Subject card gradients */
+  .subject-math {
+    background: linear-gradient(135deg, #2f6bff 0%, #60a5fa 100%);
+  }
+  .subject-science {
+    background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+  }
+  .subject-islamic {
+    background: linear-gradient(135deg, #0d9488 0%, #2dd4bf 100%);
+  }
+  .subject-pak {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%);
+  }
+  .subject-intl {
+    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+  }
+  .subject-english {
+    background: linear-gradient(135deg, #4338ca 0%, #818cf8 100%);
+  }
+  .subject-urdu {
+    background: linear-gradient(135deg, #be185d 0%, #f472b6 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .option-selected {
+    border-color: #7c3aed;
+    background-color: oklch(0.94 0.03 296);
+  }
+
+  .option-correct {
+    border-color: #059669;
+    background-color: #d1fae5;
+  }
+
+  .option-incorrect {
+    border-color: #dc2626;
+    background-color: #fee2e2;
+  }
+}
