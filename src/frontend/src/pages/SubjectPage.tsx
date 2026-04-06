@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, BookOpen, ChevronRight, Clock } from "lucide-react";
-import { motion } from "motion/react";
 import type { Quiz } from "../backend.d.ts";
 import { useApp } from "../context/AppContext";
 import { useSubjectQuizzes } from "../hooks/useQueries";
@@ -28,11 +27,8 @@ function QuizCard({
   const meta = SUBJECT_META[subjectName] ?? DEFAULT_META;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
-      className="bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden"
+    <div
+      className="bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-200 overflow-hidden"
       data-ocid={`quizzes.item.${index + 1}`}
     >
       <div
@@ -57,11 +53,11 @@ function QuizCard({
         <div className="flex items-center gap-3 mb-4">
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <BookOpen className="w-3.5 h-3.5" />
-            <span className="text-xs">50 Questions</span>
+            <span className="text-xs">10 Questions</span>
           </div>
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <Clock className="w-3.5 h-3.5" />
-            <span className="text-xs">~25 minutes</span>
+            <span className="text-xs">~10 minutes</span>
           </div>
         </div>
         <div className="flex items-center justify-between">
@@ -78,7 +74,7 @@ function QuizCard({
           </Button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -125,7 +121,7 @@ export default function SubjectPage() {
                 {selectedSubject.name}
               </h1>
               <p className="text-white/80 text-sm mt-1">
-                5 Quizzes • 250 Questions Total
+                5 Quizzes • 50 Questions Total
               </p>
             </div>
           </div>

@@ -10,7 +10,6 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import type { Answer, Question } from "../backend.d.ts";
 import { useApp } from "../context/AppContext";
@@ -29,7 +28,6 @@ export default function QuizPage() {
   );
   const { mutate: submitQuiz, isPending: isSubmitting } = useSubmitQuiz();
 
-  // Reset on quiz change
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentional reset trigger
   useEffect(() => {
     setCurrentIndex(0);
@@ -43,10 +41,9 @@ export default function QuizPage() {
 
   const handleSelectOption = useCallback(
     (question: Question, optionIndex: number) => {
-      // Only allow selection if not already answered
       const key = question.id.toString();
       setAnswers((prev) => {
-        if (prev[key] !== undefined) return prev; // locked after first selection
+        if (prev[key] !== undefined) return prev;
         return { ...prev, [key]: optionIndex };
       });
     },
@@ -165,126 +162,105 @@ export default function QuizPage() {
 
       {/* Question Area */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentQuestion.id.toString()}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.25 }}
-          >
-            {/* Question Card */}
-            <div
-              className="bg-white rounded-2xl shadow-card p-6 mb-4"
-              data-ocid="quiz.card"
-            >
-              <div className="flex items-start gap-3">
-                <span className="w-8 h-8 purple-gradient rounded-lg flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">
-                  {currentIndex + 1}
-                </span>
-                <p className="text-base font-medium text-foreground leading-relaxed">
-                  {currentQuestion.questionText}
-                </p>
-              </div>
-            </div>
+        {/* Question Card */}
+        <div
+          className="bg-white rounded-2xl shadow-card p-6 mb-4"
+          data-ocid="quiz.card"
+        >
+          <div className="flex items-start gap-3">
+            <span className="w-8 h-8 purple-gradient rounded-lg flex items-center justify-center text-white text-xs font-bold flex-shrink-0 mt-0.5">
+              {currentIndex + 1}
+            </span>
+            <p className="text-base font-medium text-foreground leading-relaxed">
+              {currentQuestion.questionText}
+            </p>
+          </div>
+        </div>
 
-            {/* Options */}
-            <div className="space-y-3 mb-4">
-              {currentQuestion.options.map((option, idx) => {
-                const isSelected = selectedAnswer === idx;
-                const isCorrect = idx === correctOption;
+        {/* Options */}
+        <div className="space-y-3 mb-4">
+          {currentQuestion.options.map((option, idx) => {
+            const isSelected = selectedAnswer === idx;
+            const isCorrect = idx === correctOption;
 
-                // Color logic: only show green/red AFTER answer is selected
-                let optionClass =
-                  "bg-white border-border hover:border-primary/40 hover:bg-accent/30 cursor-pointer";
-                let labelClass =
-                  "border-border text-muted-foreground group-hover:border-primary/40";
-                let textClass = "text-foreground";
+            let optionClass =
+              "bg-white border-border hover:border-primary/40 hover:bg-accent/30 cursor-pointer";
+            let labelClass =
+              "border-border text-muted-foreground group-hover:border-primary/40";
+            let textClass = "text-foreground";
 
-                if (isAnswered) {
-                  if (isCorrect) {
-                    // Always highlight correct answer in green
-                    optionClass = "bg-green-50 border-green-500 cursor-default";
-                    labelClass = "bg-green-500 text-white border-green-500";
-                    textClass = "text-green-800 font-semibold";
-                  } else if (isSelected && !isCorrect) {
-                    // Selected wrong answer in red
-                    optionClass = "bg-red-50 border-red-500 cursor-default";
-                    labelClass = "bg-red-500 text-white border-red-500";
-                    textClass = "text-red-800 font-semibold";
-                  } else {
-                    // Other unselected wrong options
-                    optionClass =
-                      "bg-gray-50 border-gray-200 cursor-default opacity-60";
-                    labelClass = "border-gray-300 text-gray-400";
-                    textClass = "text-gray-500";
-                  }
-                } else if (isSelected) {
-                  optionClass = "option-selected border-2 cursor-pointer";
-                  labelClass =
-                    "bg-primary text-primary-foreground border-primary";
-                  textClass = "text-foreground font-medium";
+            if (isAnswered) {
+              if (isCorrect) {
+                optionClass = "bg-green-50 border-green-500 cursor-default";
+                labelClass = "bg-green-500 text-white border-green-500";
+                textClass = "text-green-800 font-semibold";
+              } else if (isSelected && !isCorrect) {
+                optionClass = "bg-red-50 border-red-500 cursor-default";
+                labelClass = "bg-red-500 text-white border-red-500";
+                textClass = "text-red-800 font-semibold";
+              } else {
+                optionClass =
+                  "bg-gray-50 border-gray-200 cursor-default opacity-60";
+                labelClass = "border-gray-300 text-gray-400";
+                textClass = "text-gray-500";
+              }
+            } else if (isSelected) {
+              optionClass = "option-selected border-2 cursor-pointer";
+              labelClass = "bg-primary text-primary-foreground border-primary";
+              textClass = "text-foreground font-medium";
+            }
+
+            const optKey = `${currentQuestion.id.toString()}-opt-${idx}`;
+            return (
+              <button
+                key={optKey}
+                type="button"
+                onClick={() =>
+                  !isAnswered && handleSelectOption(currentQuestion, idx)
                 }
-
-                const optKey = `${currentQuestion.id.toString()}-opt-${idx}`;
-                return (
-                  <motion.button
-                    key={optKey}
-                    type="button"
-                    whileTap={isAnswered ? {} : { scale: 0.99 }}
-                    onClick={() =>
-                      !isAnswered && handleSelectOption(currentQuestion, idx)
-                    }
-                    className={`w-full text-left p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 flex items-center gap-3 group min-h-[52px] ${optionClass}`}
-                    data-ocid={`quiz.toggle.${idx + 1}`}
-                  >
-                    <span
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 border transition-colors ${labelClass}`}
-                    >
-                      {String.fromCharCode(65 + idx)}
-                    </span>
-                    <span className={`text-sm flex-1 ${textClass}`}>
-                      {option}
-                    </span>
-                    {isAnswered && isCorrect && (
-                      <CheckCircle className="w-5 h-5 text-green-600 ml-auto flex-shrink-0" />
-                    )}
-                    {isAnswered && isSelected && !isCorrect && (
-                      <XCircle className="w-5 h-5 text-red-600 ml-auto flex-shrink-0" />
-                    )}
-                  </motion.button>
-                );
-              })}
-            </div>
-
-            {/* Feedback message */}
-            {isAnswered && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className={`rounded-xl p-3 mb-4 flex items-center gap-2 text-sm font-medium ${
-                  selectedAnswer === correctOption
-                    ? "bg-green-100 text-green-800 border border-green-300"
-                    : "bg-red-100 text-red-800 border border-red-300"
-                }`}
+                className={`w-full text-left p-3 sm:p-4 rounded-xl border-2 transition-all duration-150 flex items-center gap-3 group min-h-[52px] ${optionClass}`}
+                data-ocid={`quiz.toggle.${idx + 1}`}
               >
-                {selectedAnswer === correctOption ? (
-                  <>
-                    <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
-                    Sahi jawab! Bohat acha!
-                  </>
-                ) : (
-                  <>
-                    <XCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
-                    Ghalat jawab. Sahi jawab: Option{" "}
-                    {String.fromCharCode(65 + correctOption)}
-                  </>
+                <span
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 border transition-colors ${labelClass}`}
+                >
+                  {String.fromCharCode(65 + idx)}
+                </span>
+                <span className={`text-sm flex-1 ${textClass}`}>{option}</span>
+                {isAnswered && isCorrect && (
+                  <CheckCircle className="w-5 h-5 text-green-600 ml-auto flex-shrink-0" />
                 )}
-              </motion.div>
+                {isAnswered && isSelected && !isCorrect && (
+                  <XCircle className="w-5 h-5 text-red-600 ml-auto flex-shrink-0" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Feedback message */}
+        {isAnswered && (
+          <div
+            className={`rounded-xl p-3 mb-4 flex items-center gap-2 text-sm font-medium ${
+              selectedAnswer === correctOption
+                ? "bg-green-100 text-green-800 border border-green-300"
+                : "bg-red-100 text-red-800 border border-red-300"
+            }`}
+          >
+            {selectedAnswer === correctOption ? (
+              <>
+                <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                Correct! Well done!
+              </>
+            ) : (
+              <>
+                <XCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                Incorrect. Correct answer: Option{" "}
+                {String.fromCharCode(65 + correctOption)}
+              </>
             )}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        )}
 
         {/* Navigation */}
         <div className="flex items-center justify-between">
@@ -382,48 +358,38 @@ export default function QuizPage() {
       </div>
 
       {/* Exit Confirmation Dialog */}
-      <AnimatePresence>
-        {showConfirmExit && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-            data-ocid="quiz.dialog"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full"
-            >
-              <h3 className="text-lg font-bold text-foreground mb-2">
-                Exit Quiz?
-              </h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Your progress will be lost. Are you sure you want to exit?
-              </p>
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowConfirmExit(false)}
-                  className="flex-1 rounded-pill min-h-[44px]"
-                  data-ocid="quiz.cancel_button"
-                >
-                  Continue Quiz
-                </Button>
-                <Button
-                  onClick={goHome}
-                  className="flex-1 rounded-pill bg-destructive text-white border-0 hover:opacity-90 min-h-[44px]"
-                  data-ocid="quiz.confirm_button"
-                >
-                  Exit Quiz
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showConfirmExit && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          data-ocid="quiz.dialog"
+        >
+          <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full">
+            <h3 className="text-lg font-bold text-foreground mb-2">
+              Exit Quiz?
+            </h3>
+            <p className="text-sm text-muted-foreground mb-6">
+              Your progress will be lost. Are you sure you want to exit?
+            </p>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowConfirmExit(false)}
+                className="flex-1 rounded-pill min-h-[44px]"
+                data-ocid="quiz.cancel_button"
+              >
+                Continue Quiz
+              </Button>
+              <Button
+                onClick={goHome}
+                className="flex-1 rounded-pill bg-destructive text-white border-0 hover:opacity-90 min-h-[44px]"
+                data-ocid="quiz.confirm_button"
+              >
+                Exit Quiz
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

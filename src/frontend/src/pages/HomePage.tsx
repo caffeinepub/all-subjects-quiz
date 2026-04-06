@@ -9,7 +9,6 @@ import {
   Trophy,
   Zap,
 } from "lucide-react";
-import { motion } from "motion/react";
 import type { Subject } from "../backend.d.ts";
 import { useApp } from "../context/AppContext";
 import { useAutoInitialize, useSubjects } from "../hooks/useQueries";
@@ -19,44 +18,44 @@ const SUBJECT_META: Record<
   { emoji: string; gradient: string; description: string }
 > = {
   Mathematics: {
-    emoji: "🧮",
+    emoji: "\u{1F9EE}",
     gradient: "subject-math",
     description: "Algebra, Geometry, Calculus & more",
   },
   Science: {
-    emoji: "🔬",
+    emoji: "\u{1F52C}",
     gradient: "subject-science",
     description: "Physics, Chemistry, Biology",
   },
   "Islamic Studies": {
-    emoji: "☪️",
+    emoji: "\u262A\uFE0F",
     gradient: "subject-islamic",
     description: "Quran, Hadith, Islamic History",
   },
   "Pakistan Studies": {
-    emoji: "🇵🇰",
+    emoji: "\u{1F1F5}\u{1F1F0}",
     gradient: "subject-pak",
     description: "History, Geography, Civics",
   },
   "International Relations": {
-    emoji: "🌍",
+    emoji: "\u{1F30D}",
     gradient: "subject-intl",
     description: "Diplomacy, Foreign Policy, UN",
   },
   English: {
-    emoji: "✍️",
+    emoji: "\u270D\uFE0F",
     gradient: "subject-english",
     description: "Grammar, Literature, Vocabulary",
   },
   Urdu: {
-    emoji: "📝",
+    emoji: "\u{1F4DD}",
     gradient: "subject-urdu",
     description: "Grammar, Poetry, Literature",
   },
 };
 
 const DEFAULT_META = {
-  emoji: "📚",
+  emoji: "\u{1F4DA}",
   gradient: "subject-math",
   description: "Test your knowledge",
 };
@@ -85,7 +84,6 @@ const FEATURES = [
   },
 ];
 
-const HERO_ICONS = ["📚", "🧮", "🔬", "☪️", "🌍", "✍️", "🏆", "⭐"];
 const SKELETON_KEYS = ["sk-a", "sk-b", "sk-c", "sk-d", "sk-e", "sk-f"];
 
 function SubjectCard({ subject, index }: { subject: Subject; index: number }) {
@@ -93,11 +91,9 @@ function SubjectCard({ subject, index }: { subject: Subject; index: number }) {
   const meta = SUBJECT_META[subject.name] ?? DEFAULT_META;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
-      className="bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden group cursor-pointer"
+    <button
+      type="button"
+      className="bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-200 overflow-hidden group cursor-pointer text-left w-full"
       onClick={() => goToSubject(subject)}
       data-ocid={`subjects.item.${index + 1}`}
     >
@@ -111,7 +107,7 @@ function SubjectCard({ subject, index }: { subject: Subject; index: number }) {
               "radial-gradient(circle at 30% 40%, white 0%, transparent 60%)",
           }}
         />
-        <span className="text-5xl filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
+        <span className="text-5xl filter drop-shadow-lg group-hover:scale-110 transition-transform duration-200">
           {meta.emoji}
         </span>
       </div>
@@ -122,29 +118,20 @@ function SubjectCard({ subject, index }: { subject: Subject; index: number }) {
         <p className="text-xs text-muted-foreground mb-3">{meta.description}</p>
         <div className="flex items-center justify-between">
           <Badge variant="secondary" className="text-xs font-medium">
-            5 Quizzes • 250 Questions
+            5 Quizzes
           </Badge>
-          <Button
-            size="sm"
-            className="purple-gradient text-white rounded-pill text-xs border-0 hover:opacity-90 transition-opacity px-3 h-7"
-            onClick={(e) => {
-              e.stopPropagation();
-              goToSubject(subject);
-            }}
-            data-ocid={`subjects.primary_button.${index + 1}`}
-          >
+          <span className="inline-flex items-center gap-0.5 purple-gradient text-white rounded-pill text-xs px-3 py-1 font-semibold">
             Start Quiz <ChevronRight className="w-3 h-3 ml-0.5" />
-          </Button>
+          </span>
         </div>
       </div>
-    </motion.div>
+    </button>
   );
 }
 
 export default function HomePage() {
   const { data: subjects, isLoading, isError, refetch } = useSubjects();
 
-  // Auto-initialize backend data on mount
   useAutoInitialize();
 
   const scrollToSubjects = () => {
@@ -165,11 +152,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             {/* Left */}
-            <motion.div
-              initial={{ opacity: 0, x: -32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div>
               <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-pill px-3 py-1.5 mb-5">
                 <Star className="w-3.5 h-3.5 text-yellow-300" />
                 <span className="text-xs font-semibold text-white">
@@ -197,47 +180,51 @@ export default function HomePage() {
                   Explore Subjects <ArrowRight className="w-4 h-4 ml-1.5" />
                 </Button>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Right: Decorative — hidden on mobile */}
-            <div className="hidden sm:flex justify-center md:justify-end">
-              <motion.div
-                initial={{ opacity: 0, x: 32 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <div className="relative w-72 h-64 sm:w-80 sm:h-72">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-40 h-40 bg-white/15 backdrop-blur-sm rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
-                      <GraduationCapIcon />
-                    </div>
-                  </div>
-                  {HERO_ICONS.map((icon, i) => {
-                    const angle = (i / HERO_ICONS.length) * 360;
-                    const r = 110;
-                    const x = Math.cos((angle * Math.PI) / 180) * r;
-                    const y = Math.sin((angle * Math.PI) / 180) * r;
-                    return (
-                      <motion.div
-                        key={icon}
-                        className="absolute w-11 h-11 bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/30 text-xl"
-                        style={{
-                          left: `calc(50% + ${x}px - 22px)`,
-                          top: `calc(50% + ${y}px - 22px)`,
-                        }}
-                        animate={{ y: [0, -6, 0] }}
-                        transition={{
-                          duration: 2.5 + i * 0.3,
-                          repeat: Number.POSITIVE_INFINITY,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        {icon}
-                      </motion.div>
-                    );
-                  })}
+            {/* Right: Decorative - hidden on mobile */}
+            <div className="hidden md:flex justify-center md:justify-end">
+              <div className="relative w-72 h-64 sm:w-80 sm:h-72 flex items-center justify-center">
+                <div className="w-40 h-40 bg-white/15 backdrop-blur-sm rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
+                  <GraduationCapIcon />
                 </div>
-              </motion.div>
+                <div
+                  className="absolute top-2 right-4 w-11 h-11 bg-white/25 rounded-xl flex items-center justify-center text-xl"
+                  aria-hidden="true"
+                >
+                  &#x1F4DA;
+                </div>
+                <div
+                  className="absolute top-2 left-8 w-11 h-11 bg-white/25 rounded-xl flex items-center justify-center text-xl"
+                  aria-hidden="true"
+                >
+                  &#x1F9EE;
+                </div>
+                <div
+                  className="absolute bottom-4 right-2 w-11 h-11 bg-white/25 rounded-xl flex items-center justify-center text-xl"
+                  aria-hidden="true"
+                >
+                  &#x1F52C;
+                </div>
+                <div
+                  className="absolute bottom-4 left-6 w-11 h-11 bg-white/25 rounded-xl flex items-center justify-center text-xl"
+                  aria-hidden="true"
+                >
+                  &#x1F30D;
+                </div>
+                <div
+                  className="absolute top-1/2 -right-2 w-11 h-11 bg-white/25 rounded-xl flex items-center justify-center text-xl"
+                  aria-hidden="true"
+                >
+                  &#x2B50;
+                </div>
+                <div
+                  className="absolute top-1/2 -left-2 w-11 h-11 bg-white/25 rounded-xl flex items-center justify-center text-xl"
+                  aria-hidden="true"
+                >
+                  &#x1F3C6;
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -246,21 +233,15 @@ export default function HomePage() {
       {/* Subjects Section */}
       <section id="subjects" className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-10"
-          >
+          <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-foreground mb-3">
               Choose Your Subject
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Select from 7 core subjects. Each subject has 5 quizzes with 50
+              Select from 7 core subjects. Each subject has 5 quizzes with 10
               questions each.
             </p>
-          </motion.div>
+          </div>
 
           {isLoading ? (
             <div
@@ -286,18 +267,18 @@ export default function HomePage() {
               className="text-center py-16 bg-white rounded-2xl shadow-card"
               data-ocid="subjects.error_state"
             >
-              <div className="text-5xl mb-4">⚠️</div>
+              <div className="text-5xl mb-4">&#x26A0;&#xFE0F;</div>
               <p className="text-foreground font-medium mb-2">
-                Subjects load nahi ho sakey
+                Could not load subjects
               </p>
               <p className="text-muted-foreground text-sm mb-4">
-                Internet connection check karein aur dobara try karein.
+                Please check your internet connection and try again.
               </p>
               <Button
                 onClick={() => refetch()}
                 className="purple-gradient text-white border-0 rounded-pill px-6"
               >
-                Dobara Try Karein
+                Try Again
               </Button>
             </div>
           ) : subjects && subjects.length > 0 ? (
@@ -315,10 +296,8 @@ export default function HomePage() {
               className="text-center py-16"
               data-ocid="subjects.loading_state"
             >
-              <div className="text-5xl mb-4 animate-pulse">📚</div>
-              <p className="text-muted-foreground">
-                Subjects load ho rahe hain...
-              </p>
+              <div className="text-5xl mb-4 animate-pulse">&#x1F4DA;</div>
+              <p className="text-muted-foreground">Loading subjects...</p>
             </div>
           )}
         </div>
@@ -327,13 +306,7 @@ export default function HomePage() {
       {/* Why Choose Us */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-3">
               Why Choose Us?
             </h2>
@@ -341,20 +314,13 @@ export default function HomePage() {
               Built for students who want to excel. Our platform makes learning
               effective, engaging, and fun.
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {FEATURES.map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.4 }}
-                className="text-center group"
-              >
+            {FEATURES.map((feature) => (
+              <div key={feature.title} className="text-center group">
                 <div
-                  className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200`}
                 >
                   {feature.icon}
                 </div>
@@ -364,7 +330,7 @@ export default function HomePage() {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {feature.description}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -373,26 +339,19 @@ export default function HomePage() {
       {/* CTA Banner */}
       <section className="py-12 hero-gradient">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+            Ready to Test Your Knowledge?
+          </h2>
+          <p className="text-white/80 mb-6 text-sm">
+            Join thousands of students already using All Subjects Quiz
+          </p>
+          <Button
+            className="cta-gradient text-gray-900 rounded-pill px-8 py-3 text-sm font-bold border-0 hover:opacity-90 transition-all shadow-lg min-h-[44px]"
+            onClick={scrollToSubjects}
+            data-ocid="cta.primary_button"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-              Ready to Test Your Knowledge?
-            </h2>
-            <p className="text-white/80 mb-6 text-sm">
-              Join thousands of students already using All Subjects Quiz
-            </p>
-            <Button
-              className="cta-gradient text-gray-900 rounded-pill px-8 py-3 text-sm font-bold border-0 hover:opacity-90 transition-all shadow-lg min-h-[44px]"
-              onClick={scrollToSubjects}
-              data-ocid="cta.primary_button"
-            >
-              Get Started Free <ArrowRight className="w-4 h-4 ml-1.5" />
-            </Button>
-          </motion.div>
+            Get Started Free <ArrowRight className="w-4 h-4 ml-1.5" />
+          </Button>
         </div>
       </section>
     </main>

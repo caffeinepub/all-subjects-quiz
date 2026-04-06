@@ -9,7 +9,6 @@ import {
   Trophy,
   XCircle,
 } from "lucide-react";
-import { motion } from "motion/react";
 import { useApp } from "../context/AppContext";
 
 function getPerformance(percentage: number) {
@@ -61,7 +60,6 @@ export default function ResultPage() {
   const total = correct + incorrect;
   const perf = getPerformance(percentage);
 
-  // Circumference for circle
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference - (percentage / 100) * circumference;
@@ -70,25 +68,17 @@ export default function ResultPage() {
     <main className="min-h-screen bg-gray-50 py-6 sm:py-10">
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
+        <div className="text-center mb-8">
           <p className="text-sm text-muted-foreground mb-1">
             {selectedSubject.name}
           </p>
           <h1 className="text-2xl font-bold text-foreground">
             {selectedQuiz.name} — Results
           </h1>
-        </motion.div>
+        </div>
 
         {/* Score Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+        <div
           className="bg-white rounded-3xl shadow-card p-8 mb-5 text-center"
           data-ocid="result.card"
         >
@@ -108,7 +98,7 @@ export default function ResultPage() {
                 stroke="#F3F4F6"
                 strokeWidth="10"
               />
-              <motion.circle
+              <circle
                 cx="60"
                 cy="60"
                 r={radius}
@@ -117,9 +107,8 @@ export default function ResultPage() {
                 strokeWidth="10"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
-                initial={{ strokeDashoffset: circumference }}
-                animate={{ strokeDashoffset: dashOffset }}
-                transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                strokeDashoffset={dashOffset}
+                style={{ transition: "stroke-dashoffset 1.2s ease-out" }}
               />
               <defs>
                 <linearGradient
@@ -186,16 +175,11 @@ export default function ResultPage() {
               <p className="text-xs text-muted-foreground">Total</p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Detailed Breakdown */}
         {quizResult.detailedResults.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white rounded-2xl shadow-card p-6 mb-5"
-          >
+          <div className="bg-white rounded-2xl shadow-card p-6 mb-5">
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp className="w-4 h-4 text-primary" />
               <h2 className="text-base font-semibold text-foreground">
@@ -238,16 +222,11 @@ export default function ResultPage() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-3"
-        >
+        <div className="flex flex-col sm:flex-row gap-3">
           <Button
             onClick={() => goToQuiz(selectedQuiz)}
             className="flex-1 purple-gradient text-white rounded-pill border-0 hover:opacity-90 text-sm font-semibold min-h-[44px]"
@@ -263,7 +242,7 @@ export default function ResultPage() {
           >
             <Home className="w-4 h-4 mr-1.5" /> Back to Home
           </Button>
-        </motion.div>
+        </div>
       </div>
     </main>
   );
